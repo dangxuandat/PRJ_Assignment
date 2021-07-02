@@ -1,0 +1,4 @@
+=Login.html
+login=LoginServlet
+search=SearchByFullName.jsp
+searchButton=SearchByNameServlet

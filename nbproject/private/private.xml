@@ -3,11 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/LoginServlet.java</file>
             <file>file:/D:/PRJ_Assignment/src/java/dat/registration/RegistrationDAO.java</file>
             <file>file:/D:/PRJ_Assignment/web/Login.html</file>
             <file>file:/D:/PRJ_Assignment/src/java/dat/registration/RegistrationDTO.java</file>
+            <file>file:/D:/PRJ_Assignment/web/WEB-INF/roadmap.txt</file>
+            <file>file:/D:/PRJ_Assignment/web/WEB-INF/web.xml</file>
+            <file>file:/D:/PRJ_Assignment/web/SearchFullName.html</file>
             <file>file:/D:/PRJ_Assignment/src/java/dat/filter/DispatchFilter.java</file>
-            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/loginServlet.java</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/SearchByNameServlet.java</file>
+            <file>file:/D:/PRJ_Assignment/web/SearchByFullName.jsp</file>
         </group>
     </open-files>
 </project-private>

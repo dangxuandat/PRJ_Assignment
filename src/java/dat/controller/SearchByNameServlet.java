@@ -22,7 +22,6 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebServlet(name = "SearchByNameServlet", urlPatterns = {"/SearchByNameServlet"})
 public class SearchByNameServlet extends HttpServlet {
 
     /**
@@ -43,9 +42,8 @@ public class SearchByNameServlet extends HttpServlet {
            if(!Search_name.trim().isEmpty()){
                 //1 call dao
             RegistrationDAO dao = new RegistrationDAO();
-            List<RegistrationDTO> list_searched_account = dao.SearchByFullName(Search_name);
-            HttpSession session = request.getSession();
-            session.setAttribute("LIST_SEARCHED_ACCOUNT", list_searched_account);
+            List<RegistrationDTO> list_searched_account = dao.getListRegistrationDTOSearchByFullname(Search_name);
+            request.setAttribute("LIST_SEARCHED_ACCOUNT", list_searched_account);
            }//end if search name is not empty
         }catch(Exception ex){
             

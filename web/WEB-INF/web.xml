@@ -20,6 +20,14 @@
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>SearchByNameServlet</servlet-name>
+        <servlet-class>dat.controller.SearchByNameServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SearchByNameServlet</servlet-name>
+        <url-pattern>/SearchByNameServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

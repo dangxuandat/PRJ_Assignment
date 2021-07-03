@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
         String url = "invalid";
         try {
             RegistrationDAO dao = new RegistrationDAO();
-            RegistrationDTO result_Login = dao.checkLogin(username, password);
+            RegistrationDTO result_Login = dao.getRegistrationDTOByUsernameandPassword(username, password);
             if(result_Login != null){
                 url = "search";
                 Cookie cookie = new Cookie(username, password);

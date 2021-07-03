@@ -21,7 +21,7 @@ import javax.naming.NamingException;
  */
 public class RegistrationDAO implements Serializable{
     private List<RegistrationDTO> list_searched_account;
-    public RegistrationDTO checkLogin(String username, String password) throws SQLException{
+    public RegistrationDTO getRegistrationDTOByUsernameandPassword(String username, String password) throws SQLException{
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet result = null;
@@ -66,7 +66,7 @@ public class RegistrationDAO implements Serializable{
         return null;
     }
     
-    public List<RegistrationDTO> SearchByFullName(String FullName) throws SQLException{
+    public List<RegistrationDTO> getListRegistrationDTOSearchByFullname(String FullName) throws SQLException{
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet result = null;
@@ -77,7 +77,7 @@ public class RegistrationDAO implements Serializable{
                             +"From Registration "
                             +"Where fullname LIKE ?";
                 stm = con.prepareStatement(sql);
-                stm.setString(1, FullName);
+                stm.setString(1, "%" + FullName + "%");
                 result = stm.executeQuery();
                 while(result.next()){
                     String username = result.getString("username");

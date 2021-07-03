@@ -2,8 +2,12 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <listener>
         <description>ServletContextListener</description>
-        <listener-class>dat.listener.listener</listener-class>
+        <listener-class>dat.listener.Listener</listener-class>
     </listener>
+    <context-param>
+        <param-name>roadmap</param-name>
+        <param-value>/WEB-INF/roadmap.txt</param-value>
+    </context-param>
     <filter>
         <filter-name>DispatchFilter</filter-name>
         <filter-class>dat.filter.DispatchFilter</filter-class>
@@ -16,6 +20,10 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>dat.controller.LoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateUserInfoServlet</servlet-name>
+        <servlet-class>dat.controller.UpdateUserInfoServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -27,6 +35,18 @@
     <servlet-mapping>
         <servlet-name>SearchByNameServlet</servlet-name>
         <url-pattern>/SearchByNameServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteUserByUserNameServlet</servlet-name>
+        <servlet-class>dat.controller.DeleteUserByUserNameServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteUserByUserNameServlet</servlet-name>
+        <url-pattern>/DeleteUserByUserNameServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateUserInfoServlet</servlet-name>
+        <url-pattern>/UpdateUserInfoServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

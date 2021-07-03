@@ -15,11 +15,11 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 /**
- * Web application lifecycle listener.
+ * Web application lifecycle Listener.
  *
  * @author Admin
  */
-public class listener implements ServletContextListener {
+public class Listener implements ServletContextListener {
     Map<String,String> roadmap;
     private Map<String,String> readRoadMapFromFile(String path){
         FileReader fr = null; 
@@ -44,7 +44,8 @@ public class listener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
-        String path = sce.getServletContext().getRealPath("/WEB-INF/roadmap.txt");
+        String pathRoadMap = context.getInitParameter("roadmap");
+        String path = sce.getServletContext().getRealPath(pathRoadMap);
         roadmap = readRoadMapFromFile(path);
         context.setAttribute("ROAD_MAP", roadmap);
     }

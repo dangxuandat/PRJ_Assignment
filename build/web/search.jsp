@@ -34,21 +34,49 @@
                                 <th>Password</th>
                                 <th>FullName</th>
                                 <th>isAdmin</th>
+                                <th>Delete</th>
+                                <th>Update</th>
                             </tr>
                         </thead>
                         <tbody>
                             <c:forEach var="dto" items="${list_search_name}" varStatus="counter">
+                            <form action="updateButton">
                                 <tr>
                                 <td>${counter.count}</td>
-                                <td>${dto.username}</td>
-                                <td>${dto.password}</td>
+                                <td>
+                                    ${dto.username}
+                                    <input type="hidden" name="txtUsername" value="${dto.username}" />
+                                </td>
+                                <td>
+                                    <input type="text" name="txtPassword" value="${dto.password}" />
+                                </td>
                                 <td>${dto.fullname}</td>
-                                <td>${dto.isAdmin}</td>
+                                <td>
+                                    <input type="checkbox" name="chkAdmin" value="ON"
+                                           <c:if test="${dto.admin}">
+                                               checked="checked"
+                                           </c:if>
+                                </td>
+                                <td>
+                                    <c:url var="urlRewriting" value="deleteButton">
+                                        <c:param name="txtUsername" value="${dto.username}"/>
+                                        <c:param name="txtLastSearch" value="${searchName}"/>
+                                    </c:url>
+                                    <a href="${urlRewriting}">Delete</a>
+                                </td>
+                                <td>
+                                    <input type="submit" value="Update" />
+                                    <input type="hidden" name="txtLastSearch" value="${searchName}"/>
+                                </td>
                             </tr>
+                            </form>
                             </c:forEach>
                         </tbody>
                     </table>
 
+                </c:if>
+                <c:if test="${empty list_search_name}">
+                    <h2>No User found!!!</h2>
                 </c:if>
             </c:if>
     </body>

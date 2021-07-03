@@ -16,7 +16,7 @@ public class RegistrationDTO implements Serializable {
     private String username;
     private String password;
     private String fullname;
-    private boolean isAdmin;
+    private boolean admin;
 
     /**
      * @return the username
@@ -25,11 +25,11 @@ public class RegistrationDTO implements Serializable {
         return username;
     }
 
-    public RegistrationDTO(String username, String password, String fullname, boolean isAdmin) {
+    public RegistrationDTO(String username, String password, String fullname, boolean admin) {
         this.username = username;
         this.password = password;
         this.fullname = fullname;
-        this.isAdmin = isAdmin;
+        this.admin = admin;
     }
     
 
@@ -69,17 +69,18 @@ public class RegistrationDTO implements Serializable {
     }
 
     /**
-     * @return the isAdmin
+     * @return the admin
      */
-    public boolean isIsAdmin() {
-        return isAdmin;
+    public boolean isAdmin() {
+        return admin;
     }
 
     /**
-     * @param isAdmin the isAdmin to set
+     * @param admin the admin to set
      */
-    public void setIsAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
+
 
 }

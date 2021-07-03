@@ -109,4 +109,69 @@ public class RegistrationDAO implements Serializable{
         }
         return null;
     }
+    public boolean deleteUserByUsername(String username) throws SQLException, NamingException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        int rowEffect;
+        try {
+            //1 get connect
+          con = DBHelper.makeConnection();
+          if(con != null){
+              //2 create sql string
+              String sql = "Delete "
+                          +"From Registration "
+                          +"Where username = ?";
+              stm = con.prepareStatement(sql);
+              stm.setString(1, username);
+              rowEffect = stm.executeUpdate();
+              if(rowEffect >0){
+                  return true;
+              }
+          }
+        }finally{
+            
+            if(stm != null){
+                stm.close();
+            }
+            
+            if(con != null){
+                con.close();
+            }
+        }
+        return false;
+    }
+    
+    public boolean updateUserPasswordAndRole(String username, String password, boolean isAdmin) throws SQLException, NamingException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        int effectRow;
+        try {
+            //1 get connection
+            con = DBHelper.makeConnection();
+            if(con != null){
+                //2 create String sql
+                String sql = "Update Registration "
+                            +"Set password=?, isAdmin=? "
+                            +"Where username = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, password);
+                stm.setBoolean(2, isAdmin);
+                stm.setString(3, username);
+                effectRow = stm.executeUpdate();
+                if(effectRow > 0){
+                    return true;
+                }
+            }
+        }finally{
+            
+            if(stm != null){
+                stm.close();
+            }
+            
+            if(con != null){
+                con.close();
+            }
+        }
+        return false;
+    }
 }

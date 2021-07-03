@@ -1,4 +1,6 @@
-=Login.html
+=login.html
 login=LoginServlet
-search=SearchByFullName.jsp
+search=search.jsp
 searchButton=SearchByNameServlet
+deleteButton=DeleteUserByUserNameServlet
+updateButton=UpdateUserInfoServlet

@@ -6,10 +6,10 @@
 package dat.controller;
 
 import dat.registration.RegistrationDAO;
-import dat.registration.RegistrationDTO;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class SearchByNameServlet extends HttpServlet {
+public class UpdateUserInfoServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,23 +33,29 @@ public class SearchByNameServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setHeader("Cache-Control", "no-cache");
         response.setContentType("text/html;charset=UTF-8");
-        Map<String,String> roadmap = (Map<String, String>)request.getServletContext().getAttribute("ROAD_MAP");
-        String url = roadmap.get("search");
-        String Search_name = request.getParameter("txtLastSearch");
+        String username = request.getParameter("txtUsername");
+        String password = request.getParameter("txtPassword");
+        String admin = request.getParameter("chkAdmin");
+        boolean isAdmin = false;
+        String lastSearchValue = request.getParameter("txtLastSearch");
+        String url="";
         try{
-           if(!Search_name.trim().isEmpty()){
-                //1 call dao
             RegistrationDAO dao = new RegistrationDAO();
-            List<RegistrationDTO> list_searched_account = dao.getListRegistrationDTOSearchByFullname(Search_name);
-            request.setAttribute("LIST_SEARCHED_ACCOUNT", list_searched_account);
-           }//end if search name is not empty
-        }catch(Exception ex){
+            if(admin != null){
+                if(admin.equals("ON")){
+                isAdmin = true;
+                }//end if admin is ON 
+            }//end if admin is not null
+            boolean result = dao.updateUserPasswordAndRole(username, password, isAdmin);
+            if(result){
+                url = "searchButton?txtLastSearch="+lastSearchValue;
+            }// end if result is true
+        }catch(SQLException | NamingException ex){
             
-        }finally{
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+        }
+        finally{
+            response.sendRedirect(url);
         }
     }
 

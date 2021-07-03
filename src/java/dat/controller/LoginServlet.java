@@ -40,13 +40,14 @@ public class LoginServlet extends HttpServlet {
         String url = "invalid";
         try {
             RegistrationDAO dao = new RegistrationDAO();
-            RegistrationDTO result_Login = dao.getRegistrationDTOByUsernameandPassword(username, password);
-            if(result_Login != null){
-                url = "search";
+            RegistrationDTO loginResult = dao.getRegistrationDTOByUsernameandPassword(username, password);
+            if(loginResult != null){
+                //send direct to searchServlet not search.jsp 
+                url = "searchButton";
                 Cookie cookie = new Cookie(username, password);
                 cookie.setMaxAge(60*3);
                 HttpSession session = request.getSession();
-                session.setAttribute("FULLNAME", result_Login.getFullname());
+                session.setAttribute("FULLNAME", loginResult.getFullname());
             }
         }catch(Exception ex){
             

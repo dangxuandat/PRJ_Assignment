@@ -13,7 +13,7 @@
         <title>Shopping</title>
     </head>
     <body>
-        <c:set var="listItems" value="${sessionScope.}}"
+        <c:set var="listItems" value="${requestScope.LIST_ITEM}}"/>
         <h1>Shopping</h1>
         <table border="1">
             <thead>
@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="item" items=""
+                <c:forEach var="item" items=""/>
             </tbody>
         </table>
 

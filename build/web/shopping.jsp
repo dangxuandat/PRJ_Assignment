@@ -13,21 +13,40 @@
         <title>Shopping</title>
     </head>
     <body>
-        <c:set var="listItems" value="${requestScope.LIST_ITEM}}"/>
         <h1>Shopping</h1>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Amount</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="item" items=""/>
-            </tbody>
-        </table>
-
+        <c:set var="listItems" value="${requestScope.LIST_ITEM}"/>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Amount</th>
+                        <th>Add to cart</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="item" items="${listItems}" varStatus="counter">
+                        <tr>
+                            <td>
+                                ${counter.count}
+                            </td>
+                            <td>
+                                ${item.name}
+                                <input type="hidden" name="txtItemName" value="${item.name}" />
+                            </td>
+                            <td>
+                                ${item.price}
+                            </td>
+                            <td>
+                                ${item.quantity}
+                            </td>
+                            <td>
+                                <a href="AddToCart">Add to cart</a>
+                            </td>
+                    </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
     </body>
 </html>

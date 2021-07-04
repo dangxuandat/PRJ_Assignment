@@ -36,7 +36,7 @@ public class ListIemsToShowView extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         Map<String,String> roadmap = (Map<String, String>) request.getServletContext().getAttribute("ROAD_MAP");
-        String url = roadmap.get("");
+        String url = roadmap.get("shoppingView");
         try{
             ProductDAO dao = new ProductDAO();
             dao.loadsListProductFromDatabase();

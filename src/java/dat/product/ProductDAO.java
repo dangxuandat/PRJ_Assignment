@@ -24,7 +24,7 @@ public class ProductDAO implements Serializable{
     public ArrayList<ProductDTO> getListProduct() {
         return listProduct;
     }
-    public void loadListProductFromDatabase() throws SQLException, NamingException{
+    public void loadsListProductFromDatabase() throws SQLException, NamingException{
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet result = null;

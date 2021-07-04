@@ -4,3 +4,4 @@ search=search.jsp
 searchButton=SearchByNameServlet
 deleteButton=DeleteUserByUserNameServlet
 updateButton=UpdateUserInfoServlet
+addItemButton=AddItemToCartServlet

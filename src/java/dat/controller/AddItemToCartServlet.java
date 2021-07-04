@@ -5,22 +5,23 @@
  */
 package dat.controller;
 
-import dat.registration.RegistrationDAO;
-import dat.registration.RegistrationDTO;
+import dat.cart.CartObject;
+import dat.product.ProductDAO;
+import dat.product.ProductDTO;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import javax.servlet.RequestDispatcher;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Admin
  */
-public class SearchByNameServlet extends HttpServlet {
+public class AddItemToCartServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,23 +34,23 @@ public class SearchByNameServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setHeader("Cache-Control", "no-cache");
         response.setContentType("text/html;charset=UTF-8");
-        Map<String,String> roadmap = (Map<String, String>)request.getServletContext().getAttribute("ROAD_MAP");
-        String url = roadmap.get("search");
-        String searchName = request.getParameter("txtLastSearch");
-        try{
-           if(!searchName.trim().isEmpty()){
-                //1 call dao
-            RegistrationDAO dao = new RegistrationDAO();
-            List<RegistrationDTO> listSearchedAccount = dao.getListRegistrationDTOSearchByFullname(searchName);
-            request.setAttribute("LIST_SEARCHED_ACCOUNT", listSearchedAccount);
-           }//end if search name is not empty
+        String url;
+        try  {
+            //1 customer go cart places
+            HttpSession session = request.getSession(true);
+            //2 customer take his / her cart
+            CartObject cart = (CartObject) session.getAttribute("Cart");
+            if(cart == null){
+                cart = new CartObject();
+            }
+            String itemName = request.getParameter("txtItemName");
+            cart.addItemToCart(itemName);
+            session.setAttribute("CART", cart);
         }catch(Exception ex){
             
         }finally{
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            
         }
     }
 

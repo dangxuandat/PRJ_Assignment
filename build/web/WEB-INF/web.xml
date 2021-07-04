@@ -24,6 +24,14 @@
         <servlet-name>UpdateUserInfoServlet</servlet-name>
         <servlet-class>dat.controller.UpdateUserInfoServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddItemToCartServlet</servlet-name>
+        <servlet-class>dat.controller.AddItemToCartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListIemsToShowView</servlet-name>
+        <servlet-class>dat.controller.ListIemsToShowView</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -47,6 +55,14 @@
     <servlet-mapping>
         <servlet-name>UpdateUserInfoServlet</servlet-name>
         <url-pattern>/UpdateUserInfoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddItemToCartServlet</servlet-name>
+        <url-pattern>/AddItemToCartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListIemsToShowView</servlet-name>
+        <url-pattern>/ListIemsToShowView</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

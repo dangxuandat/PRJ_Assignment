@@ -27,6 +27,7 @@
                 </thead>
                 <tbody>
                     <c:forEach var="item" items="${listItems}" varStatus="counter">
+                    <form action="addItemButton">
                         <tr>
                             <td>
                                 ${counter.count}
@@ -37,16 +38,22 @@
                             </td>
                             <td>
                                 ${item.price}
+                                
                             </td>
                             <td>
                                 ${item.quantity}
                             </td>
                             <td>
-                                <a href="AddToCart">Add to cart</a>
+                                <input type="submit" value="AddItemToCart" />
                             </td>
-                    </tr>
+                        </tr>
+                    </form>
                     </c:forEach>
+                    <form action = "viewItemInCart">
+                        <input type="submit" value="ViewCart" />
+                    </form>
                 </tbody>
             </table>
+            
     </body>
 </html>

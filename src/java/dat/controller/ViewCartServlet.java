@@ -5,22 +5,27 @@
  */
 package dat.controller;
 
+import dat.cart.CartObject;
 import dat.product.ProductDAO;
 import dat.product.ProductDTO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Admin
  */
-public class ListIemsToShowView extends HttpServlet {
+public class ViewCartServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,13 +39,23 @@ public class ListIemsToShowView extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Map<String,String> roadmap = (Map<String, String>) request.getServletContext().getAttribute("ROAD_MAP");
-        String url = roadmap.get("shoppingView");
+        response.setHeader("Cache-Control", "no-cache");
+        Map<String,String> roadmap = (Map<String,String>)request.getServletContext().getAttribute("ROAD_MAP");
+        String url = roadmap.get("viewItem");
         try{
+            HttpSession session = request.getSession(false);
+            CartObject cart = (CartObject) session.getAttribute("CART");
             ProductDAO dao = new ProductDAO();
-            dao.loadsListProductFromDatabase();
-            ArrayList<ProductDTO> listItems = dao.getListProduct();
-            request.setAttribute("LIST_ITEM", listItems);
+            if(cart == null || cart.getItems() == null){
+                String error = "No items in your cart or No cart is existed";
+                request.setAttribute("error", error);
+            }//end if cart is existed
+            else{
+                Map<String,Integer> itemsInCart =  cart.getItems();
+                dao.loadTotalPriceOfItemToViewCart(itemsInCart);
+                List<ProductDTO> listItemsInViewCart = dao.getListItemInViewCart();
+                request.setAttribute("LIST_ITEM_IN_VIEW", listItemsInViewCart);
+            }
         }catch(Exception ex){
             
         }finally{

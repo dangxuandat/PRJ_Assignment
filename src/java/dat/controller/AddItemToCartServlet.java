@@ -6,11 +6,9 @@
 package dat.controller;
 
 import dat.cart.CartObject;
-import dat.product.ProductDAO;
-import dat.product.ProductDTO;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.Map;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,12 +33,13 @@ public class AddItemToCartServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url;
+        Map<String,String> roadmap = (Map<String,String>) request.getServletContext().getAttribute("ROAD_MAP");
+        String url = roadmap.get("viewList");
         try  {
             //1 customer go cart places
             HttpSession session = request.getSession(true);
             //2 customer take his / her cart
-            CartObject cart = (CartObject) session.getAttribute("Cart");
+            CartObject cart = (CartObject) session.getAttribute("CART");
             if(cart == null){
                 cart = new CartObject();
             }
@@ -50,7 +49,8 @@ public class AddItemToCartServlet extends HttpServlet {
         }catch(Exception ex){
             
         }finally{
-            
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
         }
     }
 

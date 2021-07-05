@@ -6,3 +6,6 @@ deleteButton=DeleteUserByUserNameServlet
 updateButton=UpdateUserInfoServlet
 viewList=ListIemsToShowView
 shoppingView=shopping.jsp
+addItemButton=AddItemToCartServlet
+viewItemInCart=ViewCartServlet
+viewItem=viewItem.jsp

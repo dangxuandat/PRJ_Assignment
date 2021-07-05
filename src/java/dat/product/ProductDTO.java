@@ -17,6 +17,7 @@ public class ProductDTO implements Serializable {
     private String name;
     private int price;
     private int quantity;
+    private int total;
 
     public ProductDTO() {
     }
@@ -25,6 +26,7 @@ public class ProductDTO implements Serializable {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
+        this.total = price*quantity;
     }
 
     /**
@@ -97,6 +99,20 @@ public class ProductDTO implements Serializable {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @return the total
+     */
+    public int getTotal() {
+        return total;
+    }
+
+    /**
+     * @param total the total to set
+     */
+    public void setTotal(int total) {
+        this.total = total;
     }
     
     

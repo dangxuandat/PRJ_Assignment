@@ -9,3 +9,5 @@ shoppingView=shopping.jsp
 addItemButton=AddItemToCartServlet
 viewItemInCart=ViewCartServlet
 viewItem=viewItem.jsp
+removeItem=RemoveItemFromCartServlet
+checkoutButton=CheckoutServlet

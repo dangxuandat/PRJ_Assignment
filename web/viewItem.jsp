@@ -14,7 +14,7 @@
     </head>
     <body>
         <h1>View Your Cart</h1>
-        <c:set var="listItem" value="${requestScope.LIST_ITEM_IN_VIEW}"/>
+        <c:set var="listItem" value="${sessionScope.LIST_ITEM_IN_VIEW}"/>
         <c:set var="error" value="${requestScope.error}"/>
         <c:if test="${not empty listItem}">
             <table border="1">
@@ -25,20 +25,38 @@
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Total</th>
+                        <th>Remove</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <form action="removeItem">
                     <c:forEach var="item" items="${listItem}" varStatus="counter">
-                        <tr>
+                    
+                    <tr>
                         <td>${counter.count}</td>
-                        <th>${item.name}</th>
-                        <th>${item.price}</th>
-                        <th>${item.quantity}</th>
-                        <th>${item.total}</th>
+                        <td>
+                            ${item.name}
+                            <input type="hidden" name="txtItemName" value="${item.name}" />
+                        </td>
+                        <td>${item.price}</td>
+                        <td>${item.quantity}</td>
+                        <td>${item.total}</td>
+                        <td>
+                            <input type="checkbox" name="checkedItem" value="${item.name}"/>
+                        </td>
                     </tr>
                     </c:forEach>
+                    <tr>
+                        <td>
+                            <input type="submit" value="Remove Item" />
+                        </td>
+                    </tr>
+                    </form>
                 </tbody>
             </table>
+                    <form action="checkoutButton">
+                        <input type="submit" value="Check Out"/>
+                    </form>
         </c:if>
         <c:if test="${not empty error}">
             <h2>${error}</h2>

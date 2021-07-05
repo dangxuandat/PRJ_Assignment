@@ -42,7 +42,7 @@ public class AddItemToCartServlet extends HttpServlet {
             CartObject cart = (CartObject) session.getAttribute("CART");
             if(cart == null){
                 cart = new CartObject();
-            }
+            }//end if cart is null
             String itemName = request.getParameter("txtItemName");
             cart.addItemToCart(itemName);
             session.setAttribute("CART", cart);

@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
                 cookie.setMaxAge(60*3);
                 HttpSession session = request.getSession();
                 session.setAttribute("FULLNAME", loginResult.getFullname());
-            }
+            }// end if loginResult is successful
         }catch(Exception ex){
             
         }finally{

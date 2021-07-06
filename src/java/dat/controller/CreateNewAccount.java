@@ -5,24 +5,26 @@
  */
 package dat.controller;
 
-import dat.orderdetail.OrderDetailDAO;
-import dat.product.ProductDTO;
+import dat.registration.RegistrationDAO;
+import dat.registration.RegistrationInsertError;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import java.sql.SQLException;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Admin
  */
-public class CheckoutServlet extends HttpServlet {
+public class CreateNewAccount extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,21 +38,53 @@ public class CheckoutServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String username = request.getParameter("txtUsername");
+        String password = request.getParameter("txtPassword");
+        String confirmPassword = request.getParameter("txtConfirmPassword");
+        String fullname = request.getParameter("txtFullName");
+        RegistrationInsertError errors = new RegistrationInsertError();
         Map<String,String> roadmap = (Map<String, String>) request.getServletContext().getAttribute("ROAD_MAP");
-        String url = roadmap.get("checkout");
+        String url = roadmap.get("createNewAccountError");
+        boolean foundError = false;
         try{
-            HttpSession session = request.getSession(false);
-            if(session != null){
-                List<ProductDTO> listCheckOutItems = (List<ProductDTO>)session.getAttribute("LIST_ITEM_IN_VIEW");
-                OrderDetailDAO dao = new OrderDetailDAO();
-                if(dao.insertBillIntoDB(listCheckOutItems)){
-                    request.setAttribute("LIST_ITEMS_IN_CHECKOUT_VIEW", listCheckOutItems);
-                    session.removeAttribute("LIST_ITEM_IN_VIEW");
-                    session.removeAttribute("CART");
-                }//end if insert DataBase successful
+            //1 check errors
+            if(username.trim().length() < 6 || username.trim().length() > 20 ){
+                foundError = true;
+                errors.setUsernameLengthError("Username is required 6 to 20 characters");
+            }//end if username length is error
+            if(password.trim().length() <6 || password.trim().length() > 30){
+                foundError = true;
+                errors.setPasswordLengthError("Password is required 6 to 30 characters");
+            }else if(!confirmPassword.trim().equals(password.trim())){
+                foundError = true;
+                errors.setConfirmNotMatch("Confirm password is not matched");
+            }// end if confirm password does not match
+            if(fullname.trim().length() < 2 || fullname.trim().length() > 50){
+                foundError = true;
+                errors.setFullnameLengthError("Full name is required 2 to 50 characters");
+            }//end if fullname length is errors
+            // 2 process
+            if(foundError){
+                //send error to user
+                request.setAttribute("errors", errors);
+            }//end if found Error is true
+            else{
+                RegistrationDAO dao = new RegistrationDAO();
+                boolean result =  dao.createNewAccount(username, password, fullname);
+                if(result){
+                    url = "login.html";
+                }
             }
-        }catch(Exception ex){
             
+        }catch(SQLException ex){
+            String msg = ex.getMessage();
+            log(("CreateAccountServlet_SQL ") + msg);
+            if(msg.contains("duplicate")){
+                errors.setDuplicatedUsername(username + " is existed");
+                request.setAttribute("errors", errors);
+            }
+        } catch (NamingException ex) {
+            log("Create New Account Servlet _ Naming " + ex.getMessage());
         }finally{
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

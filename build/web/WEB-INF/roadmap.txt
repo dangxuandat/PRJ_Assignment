@@ -11,3 +11,7 @@ viewItemInCart=ViewCartServlet
 viewItem=viewItem.jsp
 removeItem=RemoveItemFromCartServlet
 checkoutButton=CheckoutServlet
+checkout=checkoutView.jsp
+creatNewAccount=CreateNewAccount.html
+createNewAccountError=CreateNewAccountError.jsp
+createAccountButton=CreateNewAccount

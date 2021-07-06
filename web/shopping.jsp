@@ -54,6 +54,6 @@
                     </form>
                 </tbody>
             </table>
-            
+            <a href="login.html">Back to Login</a>
     </body>
 </html>

@@ -47,6 +47,9 @@
                     </tr>
                     </c:forEach>
                     <tr>
+                        <td colspan="5">
+                            <a href="viewList">Add more items</a>
+                        </td>
                         <td>
                             <input type="submit" value="Remove Item" />
                         </td>

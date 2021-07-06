@@ -44,6 +44,10 @@
         <servlet-name>CheckoutServlet</servlet-name>
         <servlet-class>dat.controller.CheckoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateNewAccount</servlet-name>
+        <servlet-class>dat.controller.CreateNewAccount</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>CheckoutServlet</servlet-name>
         <url-pattern>/CheckoutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateNewAccount</servlet-name>
+        <url-pattern>/CreateNewAccount</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

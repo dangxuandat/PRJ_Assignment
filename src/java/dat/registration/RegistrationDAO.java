@@ -21,7 +21,7 @@ import javax.naming.NamingException;
  */
 public class RegistrationDAO implements Serializable{
     private List<RegistrationDTO> list_searched_account;
-    public RegistrationDTO getRegistrationDTOByUsernameandPassword(String username, String password) throws SQLException{
+    public RegistrationDTO getRegistrationDTOByUsernameandPassword(String username, String password) throws SQLException, NamingException{
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet result = null;
@@ -47,9 +47,7 @@ public class RegistrationDAO implements Serializable{
                     login_acc = new RegistrationDTO(username, password, fullname, isAdmin);
                     return login_acc;
                 }//end result loop
-            }//end if connect successfully
-        } catch (SQLException | NamingException e) {
-            
+            }//end if connect successfully  
         }finally{
             if(result != null){
                 result.close();
@@ -66,7 +64,7 @@ public class RegistrationDAO implements Serializable{
         return null;
     }
     
-    public List<RegistrationDTO> getListRegistrationDTOSearchByFullname(String FullName) throws SQLException{
+    public List<RegistrationDTO> getListRegistrationDTOSearchByFullname(String FullName) throws SQLException, NamingException{
         Connection con = null;
         PreparedStatement stm = null;
         ResultSet result = null;
@@ -92,9 +90,8 @@ public class RegistrationDAO implements Serializable{
                 }//end result lopp
                 return list_searched_account;
             }//end if connect succesfully
-        } catch (SQLException | NamingException e) {
-            
-        }finally{
+        }
+        finally{
             if(result != null){
                 result.close();
             }
@@ -126,7 +123,7 @@ public class RegistrationDAO implements Serializable{
               rowEffect = stm.executeUpdate();
               if(rowEffect >0){
                   return true;
-              }
+              }//end if delete successfully
           }
         }finally{
             
@@ -160,7 +157,7 @@ public class RegistrationDAO implements Serializable{
                 effectRow = stm.executeUpdate();
                 if(effectRow > 0){
                     return true;
-                }
+                }//end if update successfully
             }
         }finally{
             

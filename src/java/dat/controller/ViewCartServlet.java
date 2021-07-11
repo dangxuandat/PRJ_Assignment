@@ -10,23 +10,26 @@ import dat.product.ProductDAO;
 import dat.product.ProductDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author Admin
  */
 public class ViewCartServlet extends HttpServlet {
-
+    private final Logger LOGGER = Logger.getLogger(ViewCartServlet.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -46,11 +49,6 @@ public class ViewCartServlet extends HttpServlet {
             HttpSession session = request.getSession(false);
             if(session != null){
                 CartObject cart = (CartObject) session.getAttribute("CART");
-                if(cart == null || cart.getItems() == null){
-                    String error = "No items in your cart or No cart is existed";
-                    request.setAttribute("error", error);
-                    session.setAttribute("LIST_ITEM_IN_VIEW", null );
-                    }//end if cart or item in cart is null
                 if(cart.getItems() != null){
                     ProductDAO dao = new ProductDAO();
                     Map<String,Integer> itemsInCart =  cart.getItems();
@@ -58,13 +56,18 @@ public class ViewCartServlet extends HttpServlet {
                     List<ProductDTO> listItemsInViewCart = dao.getListItemInViewCart();
                     session.setAttribute("LIST_ITEM_IN_VIEW", listItemsInViewCart);
                     }//end if cart is existed
+                 else{
+                    String error = "No items in your cart or No cart is existed";
+                    request.setAttribute("error", error);
+                    session.setAttribute("LIST_ITEM_IN_VIEW", null );
+                    }//end if cart or item in cart is null
                 }//end if session is timeout
             else{
                 String error = "No items in your cart or No cart is existed";
                 request.setAttribute("error", error);
             }
-        }catch(Exception ex){
-            
+        }catch(SQLException | NamingException ex){
+            LOGGER.error(ex);
         }finally{
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

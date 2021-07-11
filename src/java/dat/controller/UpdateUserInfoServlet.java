@@ -5,21 +5,25 @@
  */
 package dat.controller;
 
+import dat.error.updateError;
 import dat.registration.RegistrationDAO;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.naming.NamingException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author Admin
  */
 public class UpdateUserInfoServlet extends HttpServlet {
-
+    private final Logger LOGGER = Logger.getLogger(UpdateUserInfoServlet.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,21 +42,32 @@ public class UpdateUserInfoServlet extends HttpServlet {
         boolean isAdmin = false;
         String lastSearchValue = request.getParameter("txtLastSearch");
         String url="";
+        HttpSession session = request.getSession();
         try{
-            RegistrationDAO dao = new RegistrationDAO();
-            if(admin != null){
-                if(admin.equals("ON")){
-                isAdmin = true;
-                }//end if admin is ON 
-            }//end if admin is not null
-            boolean result = dao.updateUserPasswordAndRole(username, password, isAdmin);
-            if(result){
+            if(password.trim().length() >= 6 && password.trim().length() <= 30){
+                RegistrationDAO dao = new RegistrationDAO();
+                if(admin != null){
+                    if(admin.equals("ON")){
+                        isAdmin = true;
+                    }//end if admin is ON 
+                }//end if admin is not null
+                boolean result = dao.updateUserPasswordAndRole(username, password, isAdmin);
+                if(result){
+                    session.removeAttribute("error");
+                    url = "searchButton?txtLastSearch="+lastSearchValue;
+                }// end if result is true
+            }else{
+                updateError error = new updateError();
+                error.setPasswordLengthError("Password is required 6 to 30 characters");
+                session.setAttribute("error", error);
                 url = "searchButton?txtLastSearch="+lastSearchValue;
-            }// end if result is true
+            }
         }catch(SQLException | NamingException ex){
-            
+            LOGGER.error(ex);
         }
         finally{
+//            RequestDispatcher rd = request.getRequestDispatcher(url);
+//            rd.forward(request, response);
             response.sendRedirect(url);
         }
     }

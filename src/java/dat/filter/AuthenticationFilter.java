@@ -9,16 +9,15 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -27,23 +26,22 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebFilter(filterName = "DispatchFilter", urlPatterns = {"/*"})
-public class DispatchFilter implements Filter {
-
+public class AuthenticationFilter implements Filter {
+    
     private static final boolean debug = true;
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
     private FilterConfig filterConfig = null;
-
-    public DispatchFilter() {
-    }
-
+    
+    public AuthenticationFilter() {
+    }    
+    
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("DispatchFilter:DoBeforeProcessing");
+            log("AuthenticationFilter:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -66,12 +64,12 @@ public class DispatchFilter implements Filter {
 	    log(buf.toString());
 	}
          */
-    }
-
+    }    
+    
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("DispatchFilter:DoAfterProcessing");
+            log("AuthenticationFilter:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -102,36 +100,45 @@ public class DispatchFilter implements Filter {
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
-    @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
-        res.setHeader("Cache-Control", "no-cache");
-        res.setHeader("Cache-Control", "no-store");
-        String uri = req.getRequestURI();
-        String url = "";
-
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpRespone = (HttpServletResponse)response;
+        String uri = httpRequest.getRequestURI();
         try {
-            // 1 get ROAD MAP
-            ServletContext context = request.getServletContext();
-            Map<String, String> roadmap = (Map<String, String>) context.getAttribute("ROAD_MAP");
-            //2 get resource name
             int lastIndex = uri.lastIndexOf("/");
-            String resource = uri.substring(lastIndex + 1);
-            //3 roadmap mapping
-            url = roadmap.get(resource);
-            if (url != null) {
-                RequestDispatcher rd = request.getRequestDispatcher(url);
-                rd.forward(request, response);
-            } else {
+            String resource = uri.substring(lastIndex +1);
+            ServletContext context = request.getServletContext();
+            //get Authentication List from app scope
+            List<String> authListMap = (List<String>)context.getAttribute("AUTH_LIST");
+            //check if there is any authenticated user
+            HttpSession session = httpRequest.getSession(false);
+            boolean authenticatedUser = (session != null && session.getAttribute("FULLNAME") != null);
+            
+            
+            if(resource.equals("login")){
+                //check user is already login
+                if(authenticatedUser){
+                    httpRespone.sendRedirect("searchButton");
+                }else{
+                    chain.doFilter(request, response);
+                }
+            }//end if user is already login
+            else if(authListMap.contains(resource)){
+                //check if there is no authenticated user, force to login again
+                if(!authenticatedUser){
+                    httpRespone.sendRedirect("login");
+                }else{
+                    chain.doFilter(request, response);
+                }
+            }//end checked anthenticattion for some page
+            else{
                 chain.doFilter(request, response);
             }
-
         } catch (Exception e) {
         }
-
+        
     }
 
     /**
@@ -153,17 +160,17 @@ public class DispatchFilter implements Filter {
     /**
      * Destroy method for this filter
      */
-    public void destroy() {
+    public void destroy() {        
     }
 
     /**
      * Init method for this filter
      */
-    public void init(FilterConfig filterConfig) {
+    public void init(FilterConfig filterConfig) {        
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
-            if (debug) {
-                log("DispatchFilter:Initializing filter");
+            if (debug) {                
+                log("AuthenticationFilter:Initializing filter");
             }
         }
     }
@@ -174,27 +181,27 @@ public class DispatchFilter implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("DispatchFilter()");
+            return ("AuthenticationFilter()");
         }
-        StringBuffer sb = new StringBuffer("DispatchFilter(");
+        StringBuffer sb = new StringBuffer("AuthenticationFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
     }
-
+    
     private void sendProcessingError(Throwable t, ServletResponse response) {
-        String stackTrace = getStackTrace(t);
-
+        String stackTrace = getStackTrace(t);        
+        
         if (stackTrace != null && !stackTrace.equals("")) {
             try {
                 response.setContentType("text/html");
                 PrintStream ps = new PrintStream(response.getOutputStream());
-                PrintWriter pw = new PrintWriter(ps);
+                PrintWriter pw = new PrintWriter(ps);                
                 pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
 
                 // PENDING! Localize this for next official release
-                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");
-                pw.print(stackTrace);
+                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");                
+                pw.print(stackTrace);                
                 pw.print("</pre></body>\n</html>"); //NOI18N
                 pw.close();
                 ps.close();
@@ -211,7 +218,7 @@ public class DispatchFilter implements Filter {
             }
         }
     }
-
+    
     public static String getStackTrace(Throwable t) {
         String stackTrace = null;
         try {
@@ -225,9 +232,9 @@ public class DispatchFilter implements Filter {
         }
         return stackTrace;
     }
-
+    
     public void log(String msg) {
-        filterConfig.getServletContext().log(msg);
+        filterConfig.getServletContext().log(msg);        
     }
-
+    
 }

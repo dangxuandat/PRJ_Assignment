@@ -8,18 +8,22 @@ package dat.controller;
 import dat.registration.RegistrationDAO;
 import dat.registration.RegistrationDTO;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Map;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author Admin
  */
 public class LoginServlet extends HttpServlet {
+    private final Logger LOGGER = Logger.getLogger(LoginServlet.class);
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,23 +39,26 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String username = request.getParameter("txtUsername");
         String password =request.getParameter("txtPassword");
-        String url = "invalid";
+        Map<String,String> roadmap = (Map<String, String>) request.getServletContext().getAttribute("ROAD_MAP");
+        String url = roadmap.get("loginError");
         try {
             RegistrationDAO dao = new RegistrationDAO();
             RegistrationDTO loginResult = dao.getRegistrationDTOByUsernameandPassword(username, password);
             if(loginResult != null){
                 //send direct to searchServlet not search.jsp 
-                url = "searchButton";
-                Cookie cookie = new Cookie(username, password);
-                cookie.setMaxAge(60*3);
+                url = roadmap.get("searchButton");
                 HttpSession session = request.getSession();
+                session.setAttribute("username", loginResult.getUsername());
+                session.setAttribute("password", loginResult.getPassword());
                 session.setAttribute("FULLNAME", loginResult.getFullname());
             }// end if loginResult is successful
-        }catch(Exception ex){
-            
+        }catch(SQLException ex){
+            LOGGER.error(ex);
+        } catch (NamingException ex) {
+            LOGGER.error(ex);
         }finally{
 //            RequestDispatcher rd   = request.getRequestDispatcher(url);
-//            rd.forward(request, response);'
+//            rd.forward(request, response);
                response.sendRedirect(url);
         }
     }

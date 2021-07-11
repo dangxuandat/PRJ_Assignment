@@ -5,10 +5,9 @@
  */
 package dat.controller;
 
-import dat.cart.CartObject;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +19,8 @@ import org.apache.log4j.Logger;
  *
  * @author Admin
  */
-public class AddItemToCartServlet extends HttpServlet {
-    private final Logger LOGGER = Logger.getLogger(AddItemToCartServlet.class);
+public class LogoutServlet extends HttpServlet {
+    private final Logger LOGGER = Logger.getLogger(LogoutServlet.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,24 +33,18 @@ public class AddItemToCartServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession(false);
         Map<String,String> roadmap = (Map<String,String>) request.getServletContext().getAttribute("ROAD_MAP");
-        String url = roadmap.get("viewList");
-        try  {
-            //1 customer go cart places
-            HttpSession session = request.getSession(true);
-            //2 customer take his / her cart
-            CartObject cart = (CartObject) session.getAttribute("CART");
-            if(cart == null){
-                cart = new CartObject();
-            }//end if cart is null
-            String itemName = request.getParameter("txtItemName");
-            cart.addItemToCart(itemName);
-            session.setAttribute("CART", cart);
+        String url = roadmap.get("login");
+        try{
+//            session.removeAttribute("username");
+//            session.removeAttribute("password");
+//            session.removeAttribute("FULLNAME");
+            session.invalidate();
         }catch(Exception ex){
             LOGGER.error(ex);
         }finally{
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            response.sendRedirect(url);
         }
     }
 

@@ -57,4 +57,19 @@ public class CartObject implements Serializable{
                }
        }//end if item is existed
     }
+    public int getItemQuanityByName(String name){
+        //check existed name
+        if(name == null || name.trim().isEmpty()){
+            return 0;
+        }
+        //chech existed this.items
+        if(this.items == null){
+            return 0;
+        }
+        
+        if(this.items.containsKey(name)){
+            return this.items.get(name);
+        }
+        return 0;
+    }
 }

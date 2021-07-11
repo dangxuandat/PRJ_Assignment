@@ -15,6 +15,7 @@
     <body>
         <h1>Shopping</h1>
         <c:set var="listItems" value="${requestScope.LIST_ITEM}"/>
+        <c:set var="currentCart" value="${sessionScope.CART}"/>
             <table border="1">
                 <thead>
                     <tr>
@@ -41,10 +42,15 @@
                                 
                             </td>
                             <td>
-                                ${item.quantity}
+                                <c:set var="remainQuantity" value="${item.quantity - currentCart.getItemQuanityByName(item.name)}"/>
+                                ${remainQuantity}
                             </td>
                             <td>
-                                <input type="submit" value="AddItemToCart" />
+                                <input type="submit" value="AddItemToCart" 
+                                       <c:if test="${remainQuantity == 0}">
+                                           disabled
+                                       </c:if>
+                                       />
                             </td>
                         </tr>
                     </form>

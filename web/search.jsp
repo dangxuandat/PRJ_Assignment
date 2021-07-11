@@ -18,11 +18,12 @@
         </font>
         
         <h1>SEARCH</h1>
-        <form action="searchButton" method="POST">
+        <form action="searchButton">
             Search <input type="text" name="txtLastSearch" value="${param.txtLastSearch}" />
             <input type="submit" value="search" />
         </form>
             <c:set var="searchName" value="${param.txtLastSearch}"/>
+            <c:set var="error" value="${sessionScope.error}"/>
             <c:if test="${not empty searchName}">
                 <c:set var="list_search_name" value="${requestScope.LIST_SEARCHED_ACCOUNT}"/>
                 <c:if test="${not empty list_search_name}">
@@ -73,11 +74,18 @@
                             </c:forEach>
                         </tbody>
                     </table>
-
                 </c:if>
+                <c:if test="${not empty error}">
+                        <font color="red">
+                            ${error.passwordLengthError}
+                        </font>
+                    </c:if>
                 <c:if test="${empty list_search_name}">
                     <h2>No User found!!!</h2>
                 </c:if>
             </c:if>
+                    <form action="logoutButton">
+                        <input type="submit" value="Logout" />
+                    </form>
     </body>
 </html>

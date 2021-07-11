@@ -7,17 +7,21 @@ package dat.controller;
 
 import dat.registration.RegistrationDAO;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Map;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author Admin
  */
 public class DeleteUserByUserNameServlet extends HttpServlet {
-
+    private final Logger LOGGER = Logger.getLogger(DeleteUserByUserNameServlet.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,15 +36,16 @@ public class DeleteUserByUserNameServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String deleteUsername = request.getParameter("txtUsername");
         String lastSearchValue = request.getParameter("txtLastSearch");
-        String url = "";
+        Map<String,String> roadmap = (Map<String,String>) request.getServletContext().getAttribute("ROAD_MAP");
+        String url = roadmap.get("deleteError");
         try{
             RegistrationDAO dao = new RegistrationDAO();
             boolean result = dao.deleteUserByUsername(deleteUsername);
             if(result){
                 url = "searchButton?txtLastSearch="+lastSearchValue;
             }//end if result is true
-        }catch(Exception ex){
-            
+        }catch(SQLException | NamingException ex){
+            LOGGER.error(ex);
         }finally{
             response.sendRedirect(url);
         }

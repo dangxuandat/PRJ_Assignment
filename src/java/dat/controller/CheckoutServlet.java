@@ -9,21 +9,24 @@ import dat.orderdetail.OrderDetailDAO;
 import dat.product.ProductDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author Admin
  */
 public class CheckoutServlet extends HttpServlet {
-
+    private final Logger LOGGER = Logger.getLogger(CheckoutServlet.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -49,8 +52,8 @@ public class CheckoutServlet extends HttpServlet {
                     session.removeAttribute("CART");
                 }//end if insert DataBase successful
             }
-        }catch(Exception ex){
-            
+        }catch(SQLException | NamingException ex){
+            LOGGER.error(ex);
         }finally{
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

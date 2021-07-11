@@ -15,13 +15,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author Admin
  */
 public class RemoveItemFromCartServlet extends HttpServlet {
-
+    private final Logger LOGGER = Logger.getLogger(RemoveItemFromCartServlet.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -55,7 +56,7 @@ public class RemoveItemFromCartServlet extends HttpServlet {
                 }//end if cart has existed
             }// end if ses
         }catch(Exception ex){
-            
+            LOGGER.error(ex);
         }
         finally{
             RequestDispatcher rd = request.getRequestDispatcher(url);

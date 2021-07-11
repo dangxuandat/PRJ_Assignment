@@ -5,11 +5,14 @@
  */
 package dat.controller;
 
-import dat.cart.CartObject;
+import dat.registration.RegistrationDAO;
+import dat.registration.RegistrationDTO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
-import javax.servlet.RequestDispatcher;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,8 +23,8 @@ import org.apache.log4j.Logger;
  *
  * @author Admin
  */
-public class AddItemToCartServlet extends HttpServlet {
-    private final Logger LOGGER = Logger.getLogger(AddItemToCartServlet.class);
+public class ProcessRequestServlet extends HttpServlet {
+    private final Logger LOGGER = Logger.getLogger(ProcessRequestServlet.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,24 +37,24 @@ public class AddItemToCartServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Map<String,String> roadmap = (Map<String,String>) request.getServletContext().getAttribute("ROAD_MAP");
-        String url = roadmap.get("viewList");
-        try  {
-            //1 customer go cart places
-            HttpSession session = request.getSession(true);
-            //2 customer take his / her cart
-            CartObject cart = (CartObject) session.getAttribute("CART");
-            if(cart == null){
-                cart = new CartObject();
-            }//end if cart is null
-            String itemName = request.getParameter("txtItemName");
-            cart.addItemToCart(itemName);
-            session.setAttribute("CART", cart);
-        }catch(Exception ex){
+        Map<String,String> roadmap = (Map<String, String>) request.getServletContext().getAttribute("ROAD_MAP");
+        String url = roadmap.get("login");
+        try {
+            HttpSession sesion = request.getSession(false);
+            RegistrationDAO dao = new RegistrationDAO();
+            if(sesion != null){
+                String username = (String) sesion.getAttribute("username");
+                String password = (String) sesion.getAttribute("password");
+                RegistrationDTO dto = dao.getRegistrationDTOByUsernameandPassword(username, password);
+                if(dto != null){
+                    sesion.setAttribute("FULLNAME", dto.getFullname());
+                    url = roadmap.get("searchButton");
+                }//end if login successfully
+            }//end if session is existed
+        }catch(SQLException | NamingException ex){
             LOGGER.error(ex);
         }finally{
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            response.sendRedirect(url);
         }
     }
 

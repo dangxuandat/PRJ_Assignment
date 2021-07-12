@@ -13,7 +13,7 @@ import java.util.Objects;
  * @author Admin
  */
 public class ProductDTO implements Serializable {
-
+    private String sku;
     private String name;
     private int price;
     private int quantity;
@@ -23,7 +23,8 @@ public class ProductDTO implements Serializable {
     }
 
     
-    public ProductDTO(String name, int price, int quantity) {
+    public ProductDTO(String sku,String name, int price, int quantity) {
+        this.sku = sku;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
@@ -80,7 +81,7 @@ public class ProductDTO implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.name);
+        hash = 97 * hash + Objects.hashCode(this.sku);
         return hash;
     }
 
@@ -96,7 +97,7 @@ public class ProductDTO implements Serializable {
             return false;
         }
         final ProductDTO other = (ProductDTO) obj;
-        if (!Objects.equals(this.name, other.name)) {
+        if (!Objects.equals(this.sku, other.sku)) {
             return false;
         }
         return true;
@@ -114,6 +115,20 @@ public class ProductDTO implements Serializable {
      */
     public void setTotal(int total) {
         this.total = total;
+    }
+
+    /**
+     * @return the sku
+     */
+    public String getSku() {
+        return sku;
+    }
+
+    /**
+     * @param sku the sku to set
+     */
+    public void setSku(String sku) {
+        this.sku = sku;
     }
     
     

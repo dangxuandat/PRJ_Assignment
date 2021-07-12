@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -21,13 +20,14 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author Admin
  */
 public class AuthenticationFilter implements Filter {
-    
+    private final Logger LOGGER = Logger.getLogger(AuthenticationFilter.class);
     private static final boolean debug = true;
 
     // The filter configuration object we are associated with.  If
@@ -136,7 +136,8 @@ public class AuthenticationFilter implements Filter {
             else{
                 chain.doFilter(request, response);
             }
-        } catch (Exception e) {
+        } catch (IOException | ServletException e) {
+            LOGGER.error(e);
         }
         
     }

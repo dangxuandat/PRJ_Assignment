@@ -35,14 +35,14 @@
                             </td>
                             <td>
                                 ${item.name}
-                                <input type="hidden" name="txtItemName" value="${item.name}" />
+                                <input type="hidden" name="txtItemSku" value="${item.sku}" />
                             </td>
                             <td>
                                 ${item.price}
                                 
                             </td>
                             <td>
-                                <c:set var="remainQuantity" value="${item.quantity - currentCart.getItemQuanityByName(item.name)}"/>
+                                <c:set var="remainQuantity" value="${item.quantity - currentCart.getItemQuanityBySku(item.sku)}"/>
                                 ${remainQuantity}
                             </td>
                             <td>

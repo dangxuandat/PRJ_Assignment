@@ -47,8 +47,8 @@ public class RemoveItemFromCartServlet extends HttpServlet {
                    if(items != null){
                        String[] removedItem = request.getParameterValues("checkedItem");
                        if(removedItem != null){
-                           for (String itemName : removedItem) {
-                               cart.removeItemToCart(itemName);
+                           for (String itemSku : removedItem) {
+                               cart.removeItemToCart(itemSku);
                            }//end traverse array
                            session.setAttribute("CART", cart);
                        }//end Remove Items

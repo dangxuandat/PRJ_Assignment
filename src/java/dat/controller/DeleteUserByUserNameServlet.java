@@ -10,10 +10,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Map;
 import javax.naming.NamingException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 /**
@@ -40,14 +42,25 @@ public class DeleteUserByUserNameServlet extends HttpServlet {
         String url = roadmap.get("deleteError");
         try{
             RegistrationDAO dao = new RegistrationDAO();
-            boolean result = dao.deleteUserByUsername(deleteUsername);
-            if(result){
+            HttpSession session = request.getSession(false);
+            String currentUser = (String) session.getAttribute("username");
+            if(deleteUsername.equals(currentUser)){
+                String deleteError = "You can not delete your account";
+                session.setAttribute("deleteError", deleteError);
                 url = "searchButton?txtLastSearch="+lastSearchValue;
-            }//end if result is true
+            }
+            else{
+                boolean result = dao.deleteUserByUsername(deleteUsername);
+                if(result){
+                    session.removeAttribute("deleteError");
+                    url = "searchButton?txtLastSearch="+lastSearchValue;
+                }//end if result is true
+            }
         }catch(SQLException | NamingException ex){
             LOGGER.error(ex);
         }finally{
             response.sendRedirect(url);
+              
         }
     }
 

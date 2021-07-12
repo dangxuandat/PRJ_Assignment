@@ -43,16 +43,17 @@ public class ProductDAO implements Serializable{
             con = DBHelper.makeConnection();
             if(con != null){
                 //2 create String sql
-                String sql = "Select NAME, PRICE, QUANTITY "
+                String sql = "Select SKU, NAME, PRICE, QUANTITY "
                             +"From Product";
                             
                 stm = con.prepareStatement(sql);
                 result = stm.executeQuery();
                 while(result.next()){
+                    String sku = result.getString("SKU");
                     String name = result.getString("NAME");
                     int price = result.getInt("PRICE");
                     int quantity = result.getInt("QUANTITY");
-                    ProductDTO item = new ProductDTO(name, price, quantity);
+                    ProductDTO item = new ProductDTO(sku,name, price, quantity);
                     if(this.listProduct == null){
                         listProduct = new ArrayList<>();
                     }//end if listProduct is empty
@@ -81,21 +82,22 @@ public class ProductDAO implements Serializable{
             //1 get Connection
             con = DBHelper.makeConnection();
             if (con != null) {
-                for (String nameItem : itemCart.keySet()) {
+                for (String skuItem : itemCart.keySet()) {
                     //2 Create String sql
-                    String sql = "Select PRICE "
+                    String sql = "Select NAME, PRICE "
                             +"From Product "
-                            +"Where NAME = ?";
+                            +"Where SKU = ?";
                     stm = con.prepareStatement(sql);
-                    stm.setString(1, nameItem);
+                    stm.setString(1, skuItem);
                     result = stm.executeQuery();
-                    int quantity = itemCart.get(nameItem);
+                    int quantity = itemCart.get(skuItem);
                     if(listItemInViewCart == null){
                         listItemInViewCart = new ArrayList<>();
                     }//end if list Item In View Cart is null
-                    while (result.next()) {                        
+                    while (result.next()) {
+                        String name = result.getString("NAME");
                         int price = result.getInt("PRICE");
-                        ProductDTO dto = new ProductDTO(nameItem, price, quantity);
+                        ProductDTO dto = new ProductDTO(skuItem,name,price,quantity);
                         listItemInViewCart.add(dto);
                     }//end if result ends
                 }// loop keyset in ItemCart

@@ -21,14 +21,14 @@ public class CartObject implements Serializable{
         return items;
     }
     
-    public void addItemToCart(String itemName){
-        //1 check itemName is existed
-        if(itemName == null){
+    public void addItemToCart(String itemSku){
+        //1 check itemSku is existed
+        if(itemSku == null){
             return;
         }
-        if(itemName.trim().isEmpty()){
+        if(itemSku.trim().isEmpty()){
             return;
-        }//end if itemName is empty
+        }//end if itemSku is empty
         
         //2 check existed cart container
         if(this.items == null){
@@ -37,29 +37,29 @@ public class CartObject implements Serializable{
         
         //3 checking existed items
         int quantity = 1;
-        if(this.items.containsKey(itemName)){
-            quantity = this.items.get(itemName) + 1;
+        if(this.items.containsKey(itemSku)){
+            quantity = this.items.get(itemSku) + 1;
         }// end if item is existed
         //4 update cart
-        this.items.put(itemName,quantity);
+        this.items.put(itemSku,quantity);
     }
     
-    public void removeItemToCart(String itemName){
+    public void removeItemToCart(String itemSku){
         //1 check existed cart
         if(this.items == null){
             return;
         }
         //2 checking existed items
-       if(this.items.containsKey(itemName)){
-               this.items.remove(itemName);
+       if(this.items.containsKey(itemSku)){
+               this.items.remove(itemSku);
                if(this.items.isEmpty()){
                    items = null;
                }
        }//end if item is existed
     }
-    public int getItemQuanityByName(String name){
-        //check existed name
-        if(name == null || name.trim().isEmpty()){
+    public int getItemQuanityBySku(String itemSku){
+        //check existed sku
+        if(itemSku == null || itemSku.trim().isEmpty()){
             return 0;
         }
         //chech existed this.items
@@ -67,8 +67,8 @@ public class CartObject implements Serializable{
             return 0;
         }
         
-        if(this.items.containsKey(name)){
-            return this.items.get(name);
+        if(this.items.containsKey(itemSku)){
+            return this.items.get(itemSku);
         }
         return 0;
     }

@@ -24,6 +24,7 @@
         </form>
             <c:set var="searchName" value="${param.txtLastSearch}"/>
             <c:set var="error" value="${sessionScope.error}"/>
+            <c:set var="deleteError" value="${sessionScope.deleteError}"/>
             <c:if test="${not empty searchName}">
                 <c:set var="list_search_name" value="${requestScope.LIST_SEARCHED_ACCOUNT}"/>
                 <c:if test="${not empty list_search_name}">
@@ -78,6 +79,11 @@
                 <c:if test="${not empty error}">
                         <font color="red">
                             ${error.passwordLengthError}
+                        </font>
+                    </c:if>
+                <c:if test="${not empty deleteError}">
+                        <font color="red">
+                            ${deleteError}
                         </font>
                     </c:if>
                 <c:if test="${empty list_search_name}">

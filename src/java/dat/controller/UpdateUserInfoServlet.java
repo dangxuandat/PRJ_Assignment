@@ -53,6 +53,7 @@ public class UpdateUserInfoServlet extends HttpServlet {
                 }//end if admin is not null
                 boolean result = dao.updateUserPasswordAndRole(username, password, isAdmin);
                 if(result){
+                    session.removeAttribute("deleteError");
                     session.removeAttribute("error");
                     url = "searchButton?txtLastSearch="+lastSearchValue;
                 }// end if result is true
@@ -60,6 +61,7 @@ public class UpdateUserInfoServlet extends HttpServlet {
                 updateError error = new updateError();
                 error.setPasswordLengthError("Password is required 6 to 30 characters");
                 session.setAttribute("error", error);
+                session.removeAttribute("deleteError");
                 url = "searchButton?txtLastSearch="+lastSearchValue;
             }
         }catch(SQLException | NamingException ex){

@@ -3,12 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/PRJ_Assignment/web/WEB-INF/log4j.properties</file>
-            <file>file:/D:/PRJ_Assignment/web/viewItem.jsp</file>
+            <file>file:/D:/PRJ_Assignment/web/WEB-INF/web.xml</file>
             <file>file:/D:/PRJ_Assignment/src/java/dat/filter/DispatchFilter.java</file>
-            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/UpdateUserInfoServlet.java</file>
-            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/SearchByNameServlet.java</file>
-            <file>file:/D:/PRJ_Assignment/web/search.jsp</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/filter/AuthenticationFilter.java</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/cart/CartObject.java</file>
+            <file>file:/D:/PRJ_Assignment/web/WEB-INF/authList.txt</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/ListIemsToShowView.java</file>
         </group>
     </open-files>
 </project-private>

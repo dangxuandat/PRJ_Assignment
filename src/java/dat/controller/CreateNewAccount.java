@@ -75,6 +75,7 @@ public class CreateNewAccount extends HttpServlet {
             }
             
         }catch(SQLException ex){
+            LOGGER.error(ex);
             String msg = ex.getMessage();
             log(("CreateAccountServlet_SQL ") + msg);
             if(msg.contains("duplicate")){
@@ -82,7 +83,7 @@ public class CreateNewAccount extends HttpServlet {
                 request.setAttribute("errors", errors);
             }
         } catch (NamingException ex) {
-            log("Create New Account Servlet _ Naming " + ex.getMessage());
+            LOGGER.error(ex);
         }finally{
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

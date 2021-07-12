@@ -49,23 +49,29 @@ public class ViewCartServlet extends HttpServlet {
             HttpSession session = request.getSession(false);
             if(session != null){
                 CartObject cart = (CartObject) session.getAttribute("CART");
-                if(cart.getItems() != null){
-                    ProductDAO dao = new ProductDAO();
-                    Map<String,Integer> itemsInCart =  cart.getItems();
-                    dao.loadTotalPriceOfItemToViewCart(itemsInCart);
-                    List<ProductDTO> listItemsInViewCart = dao.getListItemInViewCart();
-                    session.setAttribute("LIST_ITEM_IN_VIEW", listItemsInViewCart);
-                    }//end if cart is existed
-                 else{
+                if(cart == null){
                     String error = "No items in your cart or No cart is existed";
                     request.setAttribute("error", error);
-                    session.setAttribute("LIST_ITEM_IN_VIEW", null );
+                }//if cart is null
+                else{
+                    if(cart.getItems() != null){
+                        ProductDAO dao = new ProductDAO();
+                        Map<String,Integer> itemsInCart =  cart.getItems();
+                        dao.loadTotalPriceOfItemToViewCart(itemsInCart);
+                        List<ProductDTO> listItemsInViewCart = dao.getListItemInViewCart();
+                        session.setAttribute("LIST_ITEM_IN_VIEW", listItemsInViewCart);
+                    }//end if cart is existed
+                    else{
+                        String error = "No items in your cart or No cart is existed";
+                        request.setAttribute("error", error);
+                        session.setAttribute("LIST_ITEM_IN_VIEW", null );
                     }//end if cart or item in cart is null
-                }//end if session is timeout
+                }//end if cart is not null
+            }//end if session is existed
             else{
                 String error = "No items in your cart or No cart is existed";
                 request.setAttribute("error", error);
-            }
+            }//end if session time out
         }catch(SQLException | NamingException ex){
             LOGGER.error(ex);
         }finally{

@@ -36,13 +36,13 @@
                         <td>${counter.count}</td>
                         <td>
                             ${item.name}
-                            <input type="hidden" name="txtItemName" value="${item.name}" />
+                            <input type="hidden" name="txtItemSku" value="${item.sku}" />
                         </td>
                         <td>${item.price}</td>
                         <td>${item.quantity}</td>
                         <td>${item.total}</td>
                         <td>
-                            <input type="checkbox" name="checkedItem" value="${item.name}"/>
+                            <input type="checkbox" name="checkedItem" value="${item.sku}"/>
                         </td>
                     </tr>
                     </c:forEach>

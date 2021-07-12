@@ -16,7 +16,10 @@
         <font color="red" >
         Welcome, ${sessionScope.FULLNAME}
         </font>
-        
+        <form action="logoutButton">
+                        <input type="submit" value="Logout" />
+                    </form>
+        <br>
         <h1>SEARCH</h1>
         <form action="searchButton">
             Search <input type="text" name="txtLastSearch" value="${param.txtLastSearch}" />
@@ -90,8 +93,5 @@
                     <h2>No User found!!!</h2>
                 </c:if>
             </c:if>
-                    <form action="logoutButton">
-                        <input type="submit" value="Logout" />
-                    </form>
     </body>
 </html>

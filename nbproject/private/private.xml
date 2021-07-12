@@ -5,10 +5,26 @@
         <group>
             <file>file:/D:/PRJ_Assignment/web/WEB-INF/web.xml</file>
             <file>file:/D:/PRJ_Assignment/src/java/dat/filter/DispatchFilter.java</file>
+            <file>file:/D:/PRJ_Assignment/web/CreateNewAccount.html</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/utils/DBHelper.java</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/UpdateUserInfoServlet.java</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/ListIemsToShowView.java</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/listener/Listener.java</file>
+            <file>file:/D:/PRJ_Assignment/web/shopping.jsp</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/product/ProductDAO.java</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/CheckoutServlet.java</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/LoginServlet.java</file>
+            <file>file:/D:/PRJ_Assignment/web/viewItem.jsp</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/RemoveItemFromCartServlet.java</file>
             <file>file:/D:/PRJ_Assignment/src/java/dat/filter/AuthenticationFilter.java</file>
             <file>file:/D:/PRJ_Assignment/src/java/dat/cart/CartObject.java</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/SearchByNameServlet.java</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/DeleteUserByUserNameServlet.java</file>
             <file>file:/D:/PRJ_Assignment/web/WEB-INF/authList.txt</file>
-            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/ListIemsToShowView.java</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/CreateNewAccount.java</file>
+            <file>file:/D:/PRJ_Assignment/web/search.jsp</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/ViewCartServlet.java</file>
+            <file>file:/D:/PRJ_Assignment/src/java/dat/controller/AddItemToCartServlet.java</file>
         </group>
     </open-files>
 </project-private>

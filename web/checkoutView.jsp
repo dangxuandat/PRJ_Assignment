@@ -23,7 +23,7 @@
                         <th>NAME</th>
                         <th>QUANTITY</th>
                         <th>PRICE</th>
-                        <th>PRICE</th>
+                        <th>TOTAL</th>
                     </tr>
                 </thead>
                 <tbody>
